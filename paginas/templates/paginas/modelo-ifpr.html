@@ -1,0 +1,274 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pt-br" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Yohan Burger Bento">
+
+    {% block titulo %}
+    <title>::  FAETERJ PROGRESS  ::</title>
+    {% endblock %}
+
+    <!-- Ícone do favicon -->
+    <link href="{% static 'img/favicon.gif' %}" rel="shortcut icon" type="image/x-icon" />
+
+
+    <!-- Importação do Bootstrap 4 e do Font awesome -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+
+    <!-- CSS adicional -->
+    <link href="{% static 'css/ifpr.css' %}" rel="stylesheet">
+
+    <!-- Importação do Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.22/datatables.min.css" />
+
+    <!-- Ícone na barra de abas -->
+    <!-- <link rel="shortcut icon" href="{% static 'img/favicon.png' %}"> -->
+
+    <!-- Bloco destinado aos estilos para cada página -->
+    {% block styles %}
+
+    {% endblock %}
+
+</head>
+
+<body class="d-flex flex-column h-100">
+    <main role="main" class="flex-shrink-0">
+
+
+        <!-- Bloco com a logo da cidade -->
+        {% block logo %}
+        <!-- <div class="container-fluid bg-white">
+            <div class="container border-bottom border-light p-3">
+                <img src="{% static 'img/ifpr-logo.png' %}" alt="" style="max-height: 125px;" class="img-fluid">
+            </div>
+
+        </div> -->
+        {% endblock %}
+
+
+        <!-- Bloco com o menu principal -->
+        {% block menu %}
+        
+<nav class="navbar navbar-expand-lg navbar-dark font-115 shadow"
+    style="background-image: url('{% static 'img/bgteste.png' %}'); background-size: cover; background-position: center;">
+
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="{% static 'img/sistemaacademico.png' %}" height="80" alt="40">
+                    
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav mr-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                                Início
+                            </a>
+                        </li>
+
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                Cadastros
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                <a class="dropdown-item" href="{% url 'listar-cidade' %}">Cidades</a>
+                                <a class="dropdown-item" href="{% url 'listar-estado' %}">Estados</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'listar-campus' %}">Campus</a>
+                                <a class="dropdown-item" href="{% url 'listar-status' %}">Status</a>
+                                <a class="dropdown-item" href="{% url 'listar-situacao' %}">Situações</a>
+                                <a class="dropdown-item" href="{% url 'listar-classe' %}">Classes</a>
+                                <a class="dropdown-item" href="{% url 'listar-progressao' %}">Progressões</a>
+                                <a class="dropdown-item" href="{% url 'listar-campo' %}">Campos</a>
+                                <a class="dropdown-item" href="{% url 'listar-atividade' %}">Atividades</a>
+                                <a class="dropdown-item" href="{% url 'listar-comprovante' %}">Comprovantes</a>
+
+                            </div>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{% url 'sobre' %}">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                Sobre
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                Ajuda
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                <span id="username">{{ request.user }}</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'atualizar-dados' %}">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Meus dados</a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                    Alterar senha</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                    Sair</a>
+                            </div>
+                        </li>
+                        {% else %}
+                    <li class="nav-item ">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'registrar' %}"> <img
+                                src="{% static 'img/botao-registrar.png' %}" > </a> </li>
+                    </li>
+
+
+                            
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                Login
+                            </a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+
+                
+                <!-- fim do container -->
+                
+            </div>
+            
+        </nav>
+
+        
+        {% endblock %}
+
+
+    <!-- Bloco de conteúdo -->
+    {% block conteudo %}
+    
+    <div style="position: relative;">
+        <div class="container-fluid text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="{% static 'img/faeterjprincipal.png' %}" height="400" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="{% static 'img/arte.png' %}" height="210" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('{% static 'img/textura-geometrica-3d.jpg' %}'); background-size: cover; background-position: center; z-index: -1;">
+        </div>
+    </div>
+    
+    {% endblock %}
+
+        
+                        
+                    
+       
+    </main>
+
+    <footer class="mt-auto">
+
+
+        
+        <!-- Bloco acima do rodapé com links -->
+
+        
+        {% block rodape-links %}
+        
+        <div class="container-fluid bg-danger text-warning">
+            <div class="container" heigth="100%">
+                <div class="row">
+                    <div class="col-sm">
+                        
+                        <ul class="list-unstyled">
+                            <img src="{% static 'img/emblemapetropolis.png' %}" height="90" alt="">
+                        </ul>
+                    </div>
+                    <div class="col-sm">
+                    
+                        
+                        <img src="{% static 'img/emblemarj.png' %}" height="90" alt="">
+                        </ul>
+                    </div>
+                    <div class="line-sm">
+                        
+                        
+                        <img src="{% static 'img/emblemaarmasnacionais.png' %}" height="90" alt="">
+                        </ul>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+
+        <!-- Rodapé -->
+        {% block rodape %}
+        
+            
+                
+                    <img src="{% static 'img/desenvolvido por Yohan.fw.png' %}" height="109" width="100%" class="float-left" alt="">
+                  
+                </div>
+               
+
+                </p>
+            </div>
+            {% endblock %}
+
+    </footer>
+
+
+    <!-- Importação do JS -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.22/datatables.min.js"></script>
+
+    <!-- Bloco destinado aos scripts para cada página -->
+    {% block scripts %}
+
+    {% endblock %}
+
+</body>
+
+</html>

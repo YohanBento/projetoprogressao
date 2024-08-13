@@ -1,0 +1,31 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+
+<style>
+    body {
+        background-image: url('{% static 'img/textura-geometrica-3d.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        margin: 0;
+    }
+
+   
+    
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <ul class="list-unstyled">
+                <img src="{% static 'img/imagemsobrenos.png' %}" height="510" width="900" alt="">
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
