@@ -1,0 +1,52 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+<h3>{{ titulo }}</h3>
+
+<p class="lead">
+    Preencha todos os campos obrigatórios.
+</p>
+
+<hr>
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+
+    <div class="form-group">
+        <label for="id_arquivo">Anexar Arquivos (apenas PDF)</label>
+        <input type="file" name="arquivo" id="id_arquivo" multiple accept=".pdf" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-light mt-3">
+        {% autoescape off %}
+        {{ icone }}
+        {% endautoescape %}
+        {{ botao }}
+    </button>
+</form>
+
+{# Se houver arquivos cadastrados para o usuário, exiba-os aqui #}
+{% if arquivos %}
+<h4>Arquivos Enviados:</h4>
+<ul>
+    {% for arquivo in arquivos %}
+    <li><a href="{{ arquivo.arquivo.url }}">{{ arquivo.arquivo.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        // $("input:enabled:visible:first").focus();
+        // $("input[name*=data]").attr("type", "date");
+    });
+</script>
+{% endblock %}

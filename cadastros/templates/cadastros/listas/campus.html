@@ -1,0 +1,43 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+<h3>
+    <style>body { background-image: url('{% static "img/bgteste01.png" %}'); background-size: cover; background-repeat:
+    no-repeat; background-position: center; }</style>
+    Lista de Campus registrados
+    <a href="{% url 'cadastrar-campus' %}" class="btn btn-primary btn-sm float-right">Adicionar Campus</a>
+</h3>
+
+<hr>
+
+<div class="table-responsive">
+<table class="table table-striped">
+    <tr>
+        <th style="color: white;">Cidade</th>
+        <th style="color: white;">Telefone</th>
+        <th style="color: white;">Opções</th>
+    </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>{{ object.cidade }}</td>
+            <td>{{ object.telefone }}</td>
+            <td>
+                <a href="{% url 'editar-campus' object.pk %}" class="btn btn-warning btn-sm" title="Editar">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'excluir-campus' object.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Nenhum campus registrado.</td>
+        </tr>
+        {% endfor %}
+    
+    </table>
+</div>
+{% endblock %}
